@@ -1,0 +1,45 @@
+# general settings
+name: PMTB_VSR_AMSR2_test_18.7V
+model_type: VideoRecurrentModel
+scale: 4
+num_gpu: 1
+
+datasets:
+  test:
+    name: AMSR2
+    type: VideoRecurrentTestDataset
+    dataroot_gt: E:\1.AMSR2-data\PNG\1.AMSR_L3_18V-PNG-DAY-patches-groups\high-resolution_raw_data
+    dataroot_lq: E:\1.AMSR2-data\PNG\1.AMSR_L3_18V-PNG-DAY-patches-groups\low-resolution
+    meta_info_file: D:\Code\BasicSR-master-16bit-attention\basicsr\data\meta_info\meta_info_AMSR2_test_new.txt
+    cache_data: True
+    io_backend:
+      type: disk
+    num_frame: 5
+
+network_g:
+  type: PMTB_VSR
+  num_feat: 64
+  num_block: 30
+  temporal_padding: 1
+  spynet_path: ~
+  edvr_path: ~
+
+path:
+  pretrain_network_g: E:\code\PMTB-VSRnet\experiments\train_PMTB_VSR_AMSR2_18.7V\models\net_g_395000.pth
+  strict_load_g: true
+  resume_state: ~
+
+val:
+  save_img: true
+  center_frame_only: False
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
+   
+      

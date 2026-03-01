@@ -1,0 +1,111 @@
+# general settings
+name: train_PMTB_VSR_AMSR2_18.7H
+model_type: VideoRecurrentModel
+scale: 4
+num_gpu: 1
+manual_seed: 0
+is_train: true
+
+datasets:
+  train:
+    name: AMSR2
+    type: AMSR2RecurrentDataset
+    dataroot_gt: E:\1.AMSR2-data\PNG\1.AMSR_L3_18H-PNG-DAY-patches-groups\high-resolution_raw_data
+    dataroot_lq: E:\1.AMSR2-data\PNG\1.AMSR_L3_18H-PNG-DAY-patches-groups\low-resolution
+    meta_info_file: D:\Code\BasicSR-master-16bit-attention\basicsr\data\meta_info\meta_info_AMSR2_train_new.txt
+    val_partition: official
+    test_mode: False
+    io_backend:
+      type: disk
+    num_frame: 5
+    gt_size: 256
+    interval_list: [1]
+    random_reverse: false
+    use_hflip: true
+    use_rot: false
+    num_worker_per_gpu: 1
+    batch_size_per_gpu: 2
+    dataset_enlarge_ratio: 100
+    prefetch_mode: null
+   
+
+  val:
+    name: AMSR2
+    type: VideoRecurrentTestDataset
+    dataroot_gt: E:\1.AMSR2-data\PNG\1.AMSR_L3_18H-PNG-DAY-patches-groups\high-resolution_raw_data
+    dataroot_lq: E:\1.AMSR2-data\PNG\1.AMSR_L3_18H-PNG-DAY-patches-groups\low-resolution
+    meta_info_file: D:\Code\BasicSR-master-16bit-attention\basicsr\data\meta_info\meta_info_AMSR2_val_new.txt
+    cache_data: True
+    io_backend:
+      type: disk
+    num_frame: 5
+
+network_g:
+  type: PMTB_VSR
+  num_feat: 64
+  num_block: 30
+  temporal_padding: 1
+  spynet_path: ~
+  edvr_path: ~
+  
+path:
+  pretrain_network_g: ~
+  strict_load_g: true
+  resume_state: ~
+
+train:
+  ema_decay: 0.999
+  optim_g:
+    type: Adam
+    lr: !!float 2e-4
+    weight_decay: 0
+    betas: [0.9, 0.99]
+
+  lambda_pix: 1.0        
+  lambda_hf: 0.1                 
+  hf_gauss_ks: 7
+  hf_gauss_sigma: 1.6
+
+  scheduler:
+    type: CosineAnnealingRestartLR
+    periods: [400000]
+    restart_weights: [1]
+    eta_min: !!float 1e-7
+  total_iter: 400000
+  warmup_iter: 2000
+  fix_flow: 0
+  flow_lr_mul: 1
+
+  pixel_opt:
+    type: CharbonnierLoss
+    loss_weight: 1.0
+    reduction: mean
+
+val:
+  val_freq: 5000
+  save_img: false
+  dump_debug_vis: false
+  center_frame_only: false
+  metrics:
+    psnr:
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false 
+    
+logger:
+  print_freq: 1000
+  save_checkpoint_freq: 5000
+  use_tb_logger: true
+  wandb:
+    project: null
+    resume_id: null
+
+dist_params:
+  backend: gloo
+  port: 29500
+
+find_unused_parameters: true

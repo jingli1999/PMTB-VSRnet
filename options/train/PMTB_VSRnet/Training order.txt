@@ -1,0 +1,1 @@
+python basicsr/train.py -opt options/train/PMTB_VSRnet/train_PMTB_VSR_AMSR2-18.7H.yml

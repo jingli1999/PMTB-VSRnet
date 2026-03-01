@@ -1,0 +1,1 @@
+python basicsr/test.py -opt options/test/PMTB_VSRnet/test_PMTB_VSR_AMSR2_18.7H.yml
