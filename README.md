@@ -1,5 +1,7 @@
 # PMTB-VSRnet
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18821565.svg)](https://doi.org/10.5281/zenodo.18821565)
+
 Official PyTorch implementation of **PMTB-VSRnet**, a physically guided video super-resolution (VSR) framework for enhancing Antarctic passive microwave brightness temperature (BT) sequences.
 
 ---
@@ -69,8 +71,6 @@ PMTB-VSRnet/
 │
 ├── scripts/
 │
-├── results/   ← (optional, small demo only)
-│
 └── README.md
 ```
 
@@ -131,19 +131,21 @@ Researchers can reproduce the dataset by following the above procedure using pub
 
 ## 6. Publicly Available Super-Resolution Results
 
-To facilitate reproducibility and comparison, the super-resolved outputs corresponding to the four channels reported in the paper are publicly available.
+To facilitate reproducibility and quantitative comparison, the ×4 super-resolved Antarctic AMSR2 brightness temperature (BT) sequences generated in this study are publicly available at:
 
-The released result folders include:
+**Zenodo DOI:**  
+https://doi.org/10.5281/zenodo.18821565
+
+The released dataset includes four channels corresponding to the evaluation results reported in the paper:
 
 - PMTB_VSR_AMSR2_test_18.7H
 - PMTB_VSR_AMSR2_test_18.7V
 - PMTB_VSR_AMSR2_test_36.5H
 - PMTB_VSR_AMSR2_test_36.5V
 
-These datasets contain the ×4 super-resolved brightness temperature sequences used for quantitative evaluation in the paper.
+Each dataset contains temporally ordered super-resolved BT fields stored in 16-bit PNG format.
 
-Each result file is stored in 16-bit PNG format.
-
+These data support reproducibility of the quantitative experiments presented in the associated study.
 ---
 
 ## 7. Implementation Details
@@ -181,11 +183,15 @@ python basicsr/test.py -opt options/test/test_PMTB_VSR_AMSR2-36.5H.yml
 
 ---
 
-## 10. Code Availability
+## 10. Code and Data Availability
 
 The source code for PMTB-VSRnet is publicly available at:
 
 https://github.com/jingli1999/PMTB-VSRnet
+
+The super-resolved AMSR2 brightness temperature sequences generated in this study are publicly available at Zenodo:
+
+https://doi.org/10.5281/zenodo.18821565
 
 For reproducibility inquiries, please contact:  
 2411781@tongji.edu.cn
